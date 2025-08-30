@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8">
+  <title>legacy.exe</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <header>
+    <h1>legacy.exe</h1>
+    <div class="sub">byo-key client</div>
+  </header>
+
+  <main>
+    <section class="panel">
+      <div class="grid4">
+        <div class="row">
+          <label>linguagem</label>
+          <select id="language">
+            <option value="java">java</option>
+            <option value="python">python</option>
+            <option value="javascript">javascript</option>
+            <option value="csharp">csharp</option>
+          </select>
+        </div>
+        <div class="row">
+          <label>provider</label>
+          <select id="provider">
+            <option value="gemini">gemini</option>
+            <option value="openai">openai</option>
+          </select>
+        </div>
+        <div class="row">
+          <label>model</label>
+          <input id="model" placeholder="auto">
+        </div>
+        <div class="row">
+          <label>api key</label>
+          <input id="apikey" type="password" placeholder="cole sua chave">
+          <button id="remember" class="toggle">remember key</button>
+        </div>
+      </div>
+
+      <div class="row code-wrap collapsed">
+        <label>código legado</label>
+        <textarea id="legacy" placeholder="cole aqui" rows="20"></textarea>
+        <button id="btn-expand" class="ghost" aria-expanded="false">mostrar mais</button>
+      </div>
+
+      <div class="actions below">
+        <button id="btn-refactor">refatorar</button>
+        <button id="btn-sample">sample</button>
+        <div class="muted" id="status"></div>
+      </div>
+    </section>
+
+    <section class="panel output">
+      <div class="columns">
+        <div>
+          <h3>antes</h3>
+          <pre id="before"><code></code></pre>
+        </div>
+        <div>
+          <h3>depois</h3>
+          <pre id="after"><code></code></pre>
+        </div>
+      </div>
+
+      <div class="columns meta">
+        <div>
+          <h3>diff</h3>
+          <pre id="diff"><code></code></pre>
+        </div>
+        <div>
+          <h3>notas</h3>
+          <ul id="notes"></ul>
+          <h3>summary</h3>
+          <ul id="summary"></ul>
+          <div class="save">
+            <button id="btn-download">baixar código</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="overlay">
+    <div class="loader"></div>
+    <div class="msg">refatorando...</div>
+  </div>
+
+  <script type="module" src="./js/app.js"></script>
+</body>
+</html>
