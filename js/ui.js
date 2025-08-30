@@ -70,10 +70,47 @@ export function bindExpand(){
 // ---- misc UI helpers ----
 export function bindSample(setLegacy){
   el("#btn-sample").addEventListener("click",()=>{ 
-    setLegacy(`public class Exemplo {
-  public static void main(String[] args){
-    System.out.println("Olá mundo");
-  }
+    setLegacy(`import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+
+public class LegacyApp {
+
+    public static void main(String[] args) {
+        Connection conn = null;
+        Statement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            // Driver JDBC carregado manualmente (pré-Java 6)
+            Class.forName("com.mysql.jdbc.Driver");
+
+            conn = DriverManager.getConnection(
+                "jdbc:mysql://localhost:3306/legacydb",
+                "root",
+                "1234"
+            );
+
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery("SELECT id, nome FROM usuarios");
+
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String nome = rs.getString("nome");
+                System.out.println("ID: " + id + " Nome: " + nome);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            // Fecha manualmente cada recurso (sem try-with-resources)
+            try { if (rs != null) rs.close(); } catch (Exception e) {}
+            try { if (stmt != null) stmt.close(); } catch (Exception e) {}
+            try { if (conn != null) conn.close(); } catch (Exception e) {}
+        }
+    }
+}
 }`) })
 }
 export function bindRefactor(onRun){ el("#btn-refactor").addEventListener("click", onRun) }
