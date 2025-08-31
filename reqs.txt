@@ -1,0 +1,6 @@
+Refatore para:
+- evitar código duplicado;
+- extrair funções utilitárias em comparador.py;
+- adicionar checagem de extensões suportadas;
+- retornar códigos de saída adequados;
+- manter compatibilidade com tests/.

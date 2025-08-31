@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>legacy.exe – compare</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ctext y='50' x='8' font-size='48'%3E⚙%3C/text%3E%3C/svg%3E">
+  <style>
+    :root{--bg:#0d0d0f;--fg:#e6e6eb;--muted:#8a8a93;--accent:#ff2a6d;--ok:#24d18a;--card:#141418;--border:#1f1f25}
+    *{box-sizing:border-box} html,body{height:100%}
+    body{margin:0;background:linear-gradient(180deg,#0b0b0d,#0e0e12);color:var(--fg);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+    header{padding:20px;display:flex;align-items:flex-end;gap:10px}
+    h1{margin:0;font-size:22px;letter-spacing:.5px}
+    .sub{color:var(--muted);font-size:13px}
+    main{padding:12px 20px 40px;max-width:1100px;margin:0 auto}
+    .panel{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px;margin-bottom:16px}
+    .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+    @media (max-width:1000px){.grid{grid-template-columns:repeat(2,1fr)}}
+    @media (max-width:640px){.grid{grid-template-columns:1fr}}
+    .row{display:flex;flex-direction:column;gap:6px}
+    label{font-size:12px;color:var(--muted)}
+    input,textarea{width:100%;background:#0f0f13;color:var(--fg);border:1px solid var(--border);border-radius:10px;padding:10px;font-size:14px;outline:none}
+    textarea{min-height:140px;font-family:ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;line-height:1.35}
+    button{background:var(--accent);color:#fff;border:none;border-radius:10px;padding:10px 14px;font-weight:700;cursor:pointer}
+    .muted{color:var(--muted);font-size:12px}
+    .banner{padding:10px 12px;border-radius:10px;margin-bottom:10px}
+    .banner.error{background:#3a0c12;border:1px solid #6b0f1a;color:#ffd3da}
+    pre{background:#0f0f13;border:1px solid var(--border);padding:12px;border-radius:10px;overflow:auto;max-height:360px;white-space:pre-wrap}
+    details{border:1px solid var(--border);border-radius:10px;margin-bottom:8px;background:#0f0f13}
+    details>summary{cursor:pointer;padding:10px 12px;color:var(--fg)}
+    details pre{margin:0;border:none;border-top:1px solid var(--border);border-radius:0 0 10px 10px}
+    .cols{display:grid;grid-template-columns:2fr 1fr;gap:16px}
+    @media (max-width:900px){.cols{grid-template-columns:1fr}}
+    ul{margin:6px 0;padding-left:18px}
+    .row-inline{display:flex;align-items:center;gap:8px}
+    .file-actions{display:flex;gap:8px;padding:8px 12px}
+    .ghost{background:transparent;border:1px solid var(--border);color:var(--fg)}
+    .checks{display:flex;gap:12px;align-items:center;flex-wrap:wrap;font-size:13px;color:var(--muted)}
+    .checks label{display:flex;gap:6px;align-items:center}
+  </style>
+</head>
+<body>
+  <header>
+    <h1>legacy.exe</h1>
+    <div class="sub">compare</div>
+  </header>
+
+  <main>
+    <section class="panel">
+      <div id="api-offline" class="banner error" style="display:none">API offline (http://127.0.0.1:8000)</div>
+      <div class="grid">
+        <div class="row">
+          <label>API base (backend)</label>
+          <input id="api-base" placeholder="http://127.0.0.1:8000" value="http://127.0.0.1:8000" />
+        </div>
+
+        <div class="row">
+          <label>LLM API URL</label>
+          <input id="llm-url" placeholder="https://api.groq.com/openai/v1/chat/completions  •  https://generativelanguage.googleapis.com/v1beta" />
+        </div>
+        <div class="row">
+          <label>LLM API Key</label>
+          <input id="llm-key" type="password" placeholder="chave do provedor (Groq ou Gemini)" />
+        </div>
+        <div class="row">
+          <label>LLM Model</label>
+          <input id="model" placeholder="llama-3.1-8b-instant  •  gemma-3-27b-it" />
+        </div>
+
+        <div class="row">
+          <label>repo</label>
+          <input id="repo" placeholder="org/repo" />
+        </div>
+        <div class="row">
+          <label>branch</label>
+          <input id="branch" placeholder="main" value="main" />
+        </div>
+        <div class="row">
+          <label>extensões</label>
+          <input id="exts" placeholder=".py,.js,.java" value=".py,.js,.java" />
+        </div>
+        <div class="row">
+          <label>paths</label>
+          <input id="paths" placeholder="/ (tudo) • ou src/,app/" />
+        </div>
+
+        <div class="row">
+          <label>GitHub PAT (opcional)</label>
+          <input id="pat" type="password" placeholder="token para repos privados" />
+        </div>
+      </div>
+
+      <div class="checks" style="margin-top:8px">
+        <label><input type="checkbox" id="allow-placeholders"> allow placeholders</label>
+        <label><input type="checkbox" id="debug-echo-raw"> debug echo raw</label>
+      </div>
+
+      <div class="row" style="margin-top:8px">
+        <label>requisitos</label>
+        <textarea id="reqs" placeholder="Sem codigo duplicado!"></textarea>
+      </div>
+
+      <div class="row-inline" style="margin-top:10px">
+        <button id="run">comparar</button>
+        <button id="download-all" class="ghost">baixar todos</button>
+        <span class="muted" id="status"></span>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="cols">
+        <div>
+          <h3 style="margin:8px 0;color:var(--muted)">Relatório</h3>
+          <pre id="report"><code></code></pre>
+        </div>
+        <div>
+          <h3 style="margin:8px 0;color:var(--muted)">Resumo</h3>
+          <ul id="summary"></ul>
+        </div>
+      </div>
+
+      <h3 style="margin:12px 0;color:var(--muted)">Arquivos Atualizados</h3>
+      <div id="files"></div>
+
+      <h3 style="margin:12px 0;color:var(--muted)">Raw (debug)</h3>
+      <pre id="raw"><code></code></pre>
+    </section>
+  </main>
+
+  <script src="./script.js" type="module"></script>
+</body>
+</html>
