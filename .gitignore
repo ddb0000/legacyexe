@@ -1,0 +1,94 @@
+# === OS / Editors ===
+.DS_Store
+Thumbs.db
+Icon?
+*~
+*.swp
+*.swo
+.vscode/
+.idea/
+
+# === Node / Frontend (future-proof) ===
+node_modules/
+.next/
+dist/
+build/
+.cache/
+.parcel-cache/
+*.map
+# keep lockfiles if you add them later
+# !package-lock.json
+# !yarn.lock
+# !pnpm-lock.yaml
+
+# === Python / FastAPI ===
+__pycache__/
+*.py[cod]
+*.pyd
+*.pyo
+*.so
+*.egg
+*.egg-info/
+.eggs/
+.build/
+develop-eggs/
+dist/
+sdist/
+wheels/
+share/python-wheels/
+.manifest
+.installed.cfg
+
+# Virtual envs (root or server/)
+.venv/
+server/.venv/
+.env
+.env.*
+!.env.example
+
+# Type check / linters / tooling caches
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+.pytype/
+.pyright/
+.pyre/
+
+# Coverage / test outputs
+.coverage
+.coverage.*
+htmlcov/
+coverage.xml
+junit*.xml
+
+# Logs
+logs/
+*.log
+uvicorn*.log
+
+# === Project-specific ===
+# GitHub App keys / secrets
+*.pem
+*.key
+
+# Repomix / bundles / dumps
+repomix*.txt
+*repomix*.txt
+*.bundle.txt
+
+# Frontend artifacts (old/ or frontend/ if you later add tooling)
+frontend/.cache/
+frontend/dist/
+old/.cache/
+old/dist/
+
+# Misc caches
+*.tmp
+*.temp
+.tmp/
+.cache/
+
+# OS metadata in subdirs
+frontend/.DS_Store
+old/.DS_Store
+server/.DS_Store
